@@ -29,20 +29,11 @@ example:
 #####the code for the extension:
 ```javascript
 $.j.extensions.repeater = function(){
-	//store the content
-	var html = $(this).html();
-	
-	//delete the content
-	$(this).html('');
-	
-	//append the content [times] times
-	for(var i = 0 ; i < $(this).attr('times') ; i++)
-	{
-		
+	var html = $(this).html();//store the content in a varible
+	$(this).html('');//delete the content iside the tag
+	for(var i = 0 ; i < $(this).attr('times') ; i++) //append the content [times] times to the tag
 		$(this).append(html);
-	}
 	
-	//terminate this tag
-	$(this).jend();
+	$(this).jend(); // *most importantly* terminate the extension
 };
 ```
