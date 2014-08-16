@@ -248,5 +248,5 @@
 
 	$.j.status = '';
 	
-}( jQuery ));
+}( jQuery ));;
 
