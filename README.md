@@ -12,7 +12,7 @@ extensions are tags that perform a certain task (like loading content , or repea
 
 example:
 ---------
-```html5
+```html
 <repeater times="5">
 	  <div>
 	    this will be repeated 5 times
@@ -21,7 +21,7 @@ example:
 ```
 will turn into this:
 --------------------
-```html5
+```html
 <div>
   this will be repeated 5 times
 </div>
