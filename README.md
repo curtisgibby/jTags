@@ -15,28 +15,16 @@ example:
 #####this:
 ```html
 <repeater times="5">
-	  <div>
-	    this will be repeated 5 times
-	  </div>
+	<div>this will be repeated 5 times</div>
 </repeater>
 ```
 #####will turn into this:
 ```html
-<div>
-  this will be repeated 5 times
-</div>
-<div>
-  this will be repeated 5 times
-</div>
-<div>
-  this will be repeated 5 times
-</div>
-<div>
-  this will be repeated 5 times
-</div>
-<div>
-  this will be repeated 5 times
-</div>
+<div>this will be repeated 5 times</div>
+<div>this will be repeated 5 times</div>
+<div>this will be repeated 5 times</div>
+<div>this will be repeated 5 times</div>
+<div>this will be repeated 5 times</div>
 ```
 #####the code for the extension:
 ```javascript
