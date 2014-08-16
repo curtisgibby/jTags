@@ -12,6 +12,7 @@ extensions are tags that perform a certain task (like loading content , or repea
 
 example:
 ---------
+#####this:
 ```html
 <repeater times="5">
 	  <div>
@@ -19,8 +20,7 @@ example:
 	  </div>
 </repeater>
 ```
-will turn into this:
---------------------
+#####will turn into this:
 ```html
 <div>
   this will be repeated 5 times
@@ -38,8 +38,7 @@ will turn into this:
   this will be repeated 5 times
 </div>
 ```
-the code for the extension:
----------------------------
+#####the code for the extension:
 ```javascript
 $.j.extensions.repeater = function(){
 	//store the content
