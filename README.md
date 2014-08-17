@@ -51,7 +51,7 @@ $.j.extensions.repeater = function(){
 under the hood:
 ---------------
 
-J engine iterates from the outer most extension tags , working it's way down , calling the function related to the tag ,  until no extension tags are left. the J engine looks for the `skip` attribute , which is used to tell the engine whether or not to skip this tag and all its children extension tags in execution. if the `skip` attribute is set to a `number` the engine skips the tag the number of times indicated in the attribute. if the `skip` attribute is set to `1` or `once` it will skip and remove the `skip` attribute. if the `skip` attrbibute is set to `true` or `any other value` , it will skip it *forever* and the tag will not terminate until `.jend()` has been called upon it.
+J engine iterates from the outer most extension tags , working it's way down , calling the function related to the tag ,  until no extension tags are left. the J engine looks for the `skip` attribute , which is used to tell the engine whether or not to skip this tag and all its children extension tags in execution. if the `skip` attribute is set to a `number` the engine skips the tag the number of times indicated in the attribute. if the `skip` attribute is set to `1` or `once` it will skip and remove the `skip` attribute. if the `skip` attrbibute is set to `true` or `any other value` , it will skip it **forever** and the tag will not terminate until `.jend()` has been called upon it.
 
 This feature makes it possible for you to create extension that work in an asynchronos manner by setting `skip = true` and terminating only when the task is truly done.
 
