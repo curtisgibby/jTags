@@ -55,6 +55,18 @@ J engine iterates from the outer most extension tags , working it's way down , c
 
 This feature makes it possible for you to create extension that work in an asynchronos manner by setting `skip = true` and terminating only when the task is truly done.
 
+standard extensions:
+====================
+
+details in wiki.
+
+* **extension** - used to define new extensions from `name` attribute and a `function` obtained from tag html or from ajax call.
+* **j** - used to execute arbitrary code inside HTML.
+* **load** - load content via ajax call , URL from `source` attribute.
+* **define-fragment** - used to define pieces of the webpage to display later , includes fragment parameters and loading from `json` ajax call.
+* **fragment** - displays the fragment that was stored with `define-fragment` and fills (optional) fragment parameters with data obtained from tag attributes , `$.data` or from `json` ajax call.
+* **repeater** - repeat the content inside the tag , can be iterating through array obtained from `$.data` or `json` ajax call.
+
 GPL License
 ===========
 
