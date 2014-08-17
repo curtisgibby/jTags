@@ -1,7 +1,7 @@
 How It Works
 ============
 
-J Framework consists of the J engine and the J Extensions.
+jTags consists of the J engine and the J Extensions.
 
 extensions are tags that perform a certain task (like loading content , or repeating content for a certain number of times). extensions are contained in a javascript object (`$.j.extensions`) in the format of a tagname that is associated with a function. After the job of the extension is done , a function (`$(this).jend()`) is called to terminate the tag and to allow the tags inside of it to do their job.
 
@@ -40,10 +40,10 @@ J engine iterates from the outer most extension tags , working it's way down , c
 This feature makes it possible for you to create extension that work in an asynchronos manner by setting `skip = true` and terminating only when the task is truly done.
 
 
-[About J Framework](http://matantsu.github.io/J-Framework)
+[About jTags](http://matantsu.github.io/J-Framework)
 ===========
 
-J Framework is a Javascript library implemented as a jQuery plugin that is ment to be the base framework for building web apps that minimize Server-Client communication as well as for a simple , dynamic , and flexible way to create web 
+jTags is a Javascript library implemented as a jQuery plugin that is ment to be the base framework for building web apps that minimize Server-Client communication as well as for a simple , dynamic , and flexible way to create web 
 applications.
 
 visit the [website](http://matantsu.github.io/J-Framework) for more informaton.
@@ -54,9 +54,9 @@ install it on your site
 * download the zip
 * unzip the files
 * include jQuery `<script src="path/to/jQuery.min.js"></script>`
-* include J Framework `<script src="path/to/j.min.js"></script>`
+* include jTags `<script src="path/to/j.min.js"></script>`
 * have fun !
-(make sure you include jQuery before J Framework)
+(make sure you include jQuery before jTags)
 
 standard extensions:
 ====================
