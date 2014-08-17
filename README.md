@@ -1,8 +1,10 @@
-J-Framework
+[J-Framework](http://matantsu.github.io/J-Framework)
 ===========
 
 J Framework is a Javascript library implemented as a jQuery plugin that is ment to be the base framework for building web apps that minimize Server-Client communication as well as for a simple , dynamic , and flexible way to create web 
 applications.
+
+visit the [website](http://matantsu.github.io/J-Framework) for more informaton.
 
 install it on your site
 =======================
