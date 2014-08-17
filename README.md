@@ -48,3 +48,7 @@ $.j.extensions.repeater = function(){
 	$(this).jend(); // *most importantly* terminate the extension
 };
 ```
+GPL License
+===========
+
+####GPL (GNU General Public License) : basicaly it means you can do whatever you want with this code. have fun modifying ! 
