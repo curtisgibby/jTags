@@ -1,7 +1,18 @@
 J-Framework
 ===========
 
-J Framework is a Javascript library implemented as a jQuery plugin that is ment to be the base framework for building web apps that minimize Server-Client communication as well as for a simple , dynamic , and flexible way to create web applications.
+J Framework is a Javascript library implemented as a jQuery plugin that is ment to be the base framework for building web apps that minimize Server-Client communication as well as for a simple , dynamic , and flexible way to create web 
+applications.
+
+install it on your site
+=======================
+
+1. download the zip
+2. unzip the files
+3. include jQuery `<script src="path/to/jQuery.min.js"></script>`
+4. include J Framework `<script src="path/to/j.min.js"></script>`
+5. have fun !
+(make sure you include jQuery before J Framework)
 
 How It Works
 ============
