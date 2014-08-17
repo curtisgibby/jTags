@@ -1,21 +1,3 @@
-[J-Framework](http://matantsu.github.io/J-Framework)
-===========
-
-J Framework is a Javascript library implemented as a jQuery plugin that is ment to be the base framework for building web apps that minimize Server-Client communication as well as for a simple , dynamic , and flexible way to create web 
-applications.
-
-visit the [website](http://matantsu.github.io/J-Framework) for more informaton.
-
-install it on your site
-=======================
-
-* download the zip
-* unzip the files
-* include jQuery `<script src="path/to/jQuery.min.js"></script>`
-* include J Framework `<script src="path/to/j.min.js"></script>`
-* have fun !
-(make sure you include jQuery before J Framework)
-
 How It Works
 ============
 
@@ -56,6 +38,25 @@ under the hood:
 J engine iterates from the outer most extension tags , working it's way down , calling the function related to the tag ,  until no extension tags are left. the J engine looks for the `skip` attribute , which is used to tell the engine whether or not to skip this tag and all its children extension tags in execution. if the `skip` attribute is set to a `number` the engine skips the tag the number of times indicated in the attribute. if the `skip` attribute is set to `1` or `once` it will skip and remove the `skip` attribute. if the `skip` attrbibute is set to `true` or `any other value` , it will skip it **forever** and the tag will not terminate until `.jend()` has been called upon it.
 
 This feature makes it possible for you to create extension that work in an asynchronos manner by setting `skip = true` and terminating only when the task is truly done.
+
+
+[About J Framework](http://matantsu.github.io/J-Framework)
+===========
+
+J Framework is a Javascript library implemented as a jQuery plugin that is ment to be the base framework for building web apps that minimize Server-Client communication as well as for a simple , dynamic , and flexible way to create web 
+applications.
+
+visit the [website](http://matantsu.github.io/J-Framework) for more informaton.
+
+install it on your site
+=======================
+
+* download the zip
+* unzip the files
+* include jQuery `<script src="path/to/jQuery.min.js"></script>`
+* include J Framework `<script src="path/to/j.min.js"></script>`
+* have fun !
+(make sure you include jQuery before J Framework)
 
 standard extensions:
 ====================
