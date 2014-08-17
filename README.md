@@ -7,11 +7,11 @@ applications.
 install it on your site
 =======================
 
-1. download the zip
-2. unzip the files
-3. include jQuery `<script src="path/to/jQuery.min.js"></script>`
-4. include J Framework `<script src="path/to/j.min.js"></script>`
-5. have fun !
+* download the zip
+* unzip the files
+* include jQuery `<script src="path/to/jQuery.min.js"></script>`
+* include J Framework `<script src="path/to/j.min.js"></script>`
+* have fun !
 (make sure you include jQuery before J Framework)
 
 How It Works
