@@ -54,7 +54,6 @@ J engine iterates from the outer most extension tags , working it's way down , c
 
 This feature makes it possible for you to create extension that work in an asynchronos manner by setting `skip = true` and terminating only when the task is truly done.
 
-
 GPL License
 ===========
 
