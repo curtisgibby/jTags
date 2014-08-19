@@ -54,7 +54,7 @@ install it on your site
 * download the zip
 * unzip the files
 * include jQuery `<script src="path/to/jQuery.min.js"></script>`
-* include jTags `<script src="path/to/j.min.js"></script>`
+* include jTags `<script src="path/to/jTags.min.js"></script>`
 * have fun !
 (make sure you include jQuery before jTags)
 
