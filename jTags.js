@@ -31,7 +31,29 @@
 	    }
 	};
 	
-	$(window).load(function(){$.j();});
+	$(window).load(function(){
+		$.j.extensions.repeater = 
+			function()
+			{
+				//store the content
+				var html = $(this).html();
+				
+				//delete the content
+				$(this).html('');
+				
+				//append the content [times] times
+				for(var i = 0 ; i < $(this).attr('times') ; i++)
+				{
+					
+					$(this).append(html);
+				}
+				
+				//terminate this tag
+				$(this).jend();
+			};
+		
+		$.j();
+	});
 	
 	$.j = function ()
 	{
@@ -59,7 +81,9 @@
     		{
     			if($(e).parents(str).length == 0 && typeof $(e).attr('skip') === 'undefined' )
     			{
+    				$(e).trigger('jstart');
     				ext[$(e).prop('tagName').toLowerCase()].call(e);
+    				$(e).trigger('jstop');
     				if(typeof $(e).attr('skip') === 'undefined')
     					$(e).attr('skip' , 'true');
     			}
@@ -78,6 +102,7 @@
 	
 	$.fn.jend = function(content)
 	{
+		$(this).trigger('jend');
 		if(typeof content !== 'undefined')
 			$(this).replaceWith(content);
 		else
@@ -242,8 +267,41 @@
     			
     			$(e).jend();
     		}
-    	}
+    	},
     	
+    	'content-holder':function()
+    	{
+    		if(!$(this).is('[name]')) {$(this).jend();return;}
+    		var e = this;
+    		
+    		$(e).wrap('<div id="j-content-holder-'+$(e).attr('name')+'"></div>');
+    		$(e).jend();
+    		
+    		$('body').on('click' , 'a[href]' , function(ev)
+			{
+    			ev.preventDefault();
+    			window.history.pushState('object or string', 'Title', $(this).attr('href'));
+    			
+    			$.get(location.href , function(res){
+    				$(res).filter('content[name]').each(function(i,e)
+					{
+    					$('div#j-content-holder-'+$(e).attr('name')).html('').append($(e).contents().clone(true));
+					});
+    				$.j();
+    			});
+			});
+    		
+    		window.onpopstate = function()
+    		{
+    			$.get(location.href , function(res){
+    				$(res).filter('content[name]').each(function(i,e)
+					{
+    					$('div#j-content-holder-'+$(e).attr('name')).html('').append($(e).contents().clone(true));
+					});
+    				$.j();
+    			});
+    		};
+    	}
 	};
 
 	$.j.status = '';
