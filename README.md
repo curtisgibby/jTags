@@ -36,11 +36,11 @@ with junk referring to the repetitive behaviour of servers nowadays.
 the server sould *not* provide identical information twice , and should provide the data only when necessary.
 
 #####the standard jTags:
--extension
--j
--load
--define-fragment
--fragment
--repeater
--content-holder
+* extension
+* j
+* load
+* define-fragment
+* fragment
+* repeater
+* content-holder
 
