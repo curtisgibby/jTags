@@ -31,30 +31,6 @@
 	    }
 	};
 	
-	$(window).load(function(){
-		$.j.extensions.repeater = 
-			function()
-			{
-				//store the content
-				var html = $(this).html();
-				
-				//delete the content
-				$(this).html('');
-				
-				//append the content [times] times
-				for(var i = 0 ; i < $(this).attr('times') ; i++)
-				{
-					
-					$(this).append(html);
-				}
-				
-				//terminate this tag
-				$(this).jend();
-			};
-		
-		$.j();
-	});
-	
 	$.j = function ()
 	{
 		if($.j.status == true) return;
