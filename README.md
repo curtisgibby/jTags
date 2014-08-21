@@ -10,6 +10,8 @@ jTags are a unique way of building a highly dynamic, customizable and efficient 
 	<p>this will be repeated 3 times.</p>
 <repeater>
 ```
+<p align="center">▼
+</p>
 ######turns into this:
 ```html
 <p>this will be repeated 3 times.</p>
@@ -23,7 +25,7 @@ Get Started
 install jTags:
 --------------
 
-* download jTags zip
+* download [jTags.zip](https://github.com/matantsu/jTags/archive/master.zip)
 * unzip jTags
 * include jQuery `<script src="path/to/jQuery.min.js">` in your website
 * include jTags `<script src="path/to/jTags.min.js">` in your website
