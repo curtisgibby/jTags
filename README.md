@@ -32,6 +32,16 @@ install jTags:
 * make sure jQuery is included before jTags
 * have fun !
 
+contribute to jTags:
+-----------------
+
+* post an issue on github with the jTag name followed by a description of it's function or the function itself.
+
+* help improve jTags and the standard extensions : add new features , tackle compattibility issues and more.
+
+* post issues and problems with jTags and help test them.
+
+
 standard jTags
 ==============
 
