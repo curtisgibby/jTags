@@ -1,9 +1,9 @@
 About jTags
 ===========
 
-jTags are a unique way of building a highly dynamic, customizable and efficient website quickly and easily.
+jTags are a unique way of building a highly dynamic, customizable and efficient website quickly and easily. With jTags you can embed functionality to the markup tags to make them perform a certain task.
 
-With jTags you can embed functionality to html tags to make them perform a certain task. 
+
 
 ######example:
 ```html
@@ -11,7 +11,6 @@ With jTags you can embed functionality to html tags to make them perform a certa
 	<p>this will be repeated 3 times.</p>
 <repeater>
 ```
-
 ######turns into this:
 ```html
 <p>this will be repeated 3 times.</p>
