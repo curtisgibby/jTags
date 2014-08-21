@@ -24,6 +24,7 @@ The standard jTags are the jTags that come pre-built with the core library. they
 
 #####the problem:
 server nowadays provide alot of redundant and identical data instead of efficiently providing only the data that is needed. this is because the web was designed for static html pages and not modern dynamic web applicaions.
+
 thus every time you open facebook page , the server has to provide the html for the top navigation bar.
 whenever you open the news feed identical html layout for every post needs to be provided with only a few variations in the content of the post.
 
