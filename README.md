@@ -45,3 +45,15 @@ the server sould *not* provide identical information twice , and should provide 
 * `repeater` - repeat the content using an array of data hard-coded or from ajax-call.
 * `content-holder` - makes the website operate in ajax-browsing , links will cause the page to be loaded via ajax to the content-holder
 
+Get Started
+===========
+
+install jTags:
+--------------
+
+* download jTags zip
+* unzip jTags
+* include jQuery `<script src="path/to/jQuery.min.js">` in your website
+* include jTags `<script src="path/to/jTags.min.js">` in your website
+* make sure jQuery is included before jTags
+* have fun !
