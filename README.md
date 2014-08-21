@@ -10,7 +10,8 @@ jTags are a unique way of building a highly dynamic, customizable and efficient 
 	<p>this will be repeated 3 times.</p>
 <repeater>
 ```
-<p align="center">▼
+<p align="center">
+	▼▼▼▼▼
 </p>
 ######turns into this:
 ```html
