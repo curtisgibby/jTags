@@ -5,17 +5,16 @@ jTags are a unique way of building a highly dynamic, customizable and efficient 
 
 With jTags you can embed functionality to html tags to make them perform a certain task. 
 
+######example:
 ```html
-<repeater times="5">
-	<p>this will be repeated 5 times.</p>
+<repeater times="3">
+	<p>this will be repeated 3 times.</p>
 <repeater>
 ```
 
-turns into this:
+######turns into this:
 ```html
-<p>this will be repeated 5 times.</p>
-<p>this will be repeated 5 times.</p>
-<p>this will be repeated 5 times.</p>
-<p>this will be repeated 5 times.</p>
-<p>this will be repeated 5 times.</p>
+<p>this will be repeated 3 times.</p>
+<p>this will be repeated 3 times.</p>
+<p>this will be repeated 3 times.</p>
 ```
