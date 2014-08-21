@@ -38,7 +38,7 @@ the server sould *not* provide identical information twice , and should provide 
 
 #####the standard jTags:
 * `extension` - quickly define a new jTag hard-coded or from ajax-call.
-* `jTag` - perform arbitrary task with `code` attribute.
+* `j` - perform arbitrary task with `code` attribute.
 * `load` - load content via ajax call.
 * `efine-fragment` - define a pattern with varibales to be used later.
 * `fragment` - display the defined pattern and fill in the variables with data hard-coded or from ajax-call.
