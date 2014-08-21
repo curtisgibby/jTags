@@ -56,7 +56,7 @@ whenever you open the news feed identical html layout for every post needs to be
 this causes the server to spend alot of time providing redundant data instead of actual fresh data that the user wants.
 
 because of that problem , the standard jTags are built with the moto :
-***"the server is ment to provide data not junk !"***
+> "*the server is ment to provide data not junk !*"
 
 with junk referring to the repetitive behaviour of servers nowadays.
 the server sould *not* provide identical information twice , and should provide the data only when necessary.
