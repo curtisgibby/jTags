@@ -37,11 +37,11 @@ with junk referring to the repetitive behaviour of servers nowadays.
 the server sould *not* provide identical information twice , and should provide the data only when necessary.
 
 #####the standard jTags:
-* extension
-* j
-* load
-* define-fragment
-* fragment
-* repeater
-* content-holder
+* `extension` - quickly define a new jTag hard-coded or from ajax-call.
+* `jTag` - perform arbitrary task with `code` attribute.
+* `load` - load content via ajax call.
+* `efine-fragment` - define a pattern with varibales to be used later.
+* `fragment` - display the defined pattern and fill in the variables with data hard-coded or from ajax-call.
+* `repeater` - repeat the content using an array of data hard-coded or from ajax-call.
+* `content-holder` - makes the website operate in ajax-browsing , links will cause the page to be loaded via ajax to the content-holder
 
