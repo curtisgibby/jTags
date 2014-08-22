@@ -279,7 +279,7 @@
     		
     		if(getParameterByName('page'))nav();
     		
-    		$('body').on('click' , 'a[href]' , function(ev)
+    		$('body').on('click' , 'a[href]:not([rel=external])' , function(ev)
 			{
     			ev.preventDefault();
     			window.history.pushState('object or string', 'Title', '?page='+$(this).attr('href'));
