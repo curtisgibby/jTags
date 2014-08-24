@@ -8,9 +8,19 @@
 (function ( $ ) {
 	
 	/* overview of jTags-core : 
-	 * 
+	 * ------------------------
+	 * jTags-core is a simple engine that iterates over tags with defined tagNames (in window.jTags)
+	 * than executes the function associated with them from the outer-most to the inner-most jTag
+	 * the [skip] attribute of the jTag tells the engine whether to skip the execution or not
+	 * and when a jTag has done it's task it calles $(this).jend() to terminate itself.
+	 *
+	 * objects:
+	 * --------
 	 * window.jTagSettings - default settings.
-	 * 
+	 * window.jTags - the object containing the jTag definitions.
+	 *
+	 * functions:
+	 * ----------
 	 * $.fn.exec - execute single jTag.
 	 * $.fn.execLayer - execute only surface jTags for `order of operations` purpose (jTags without any jTags outside of them).
 	 * $.fn.execAll - execute every jTag in the page according to `order of operations`.
@@ -19,7 +29,23 @@
 	 * $.fn.skip - get or set [skip] attribute of a jTag.
 	 * $.fn.jTagError - an error object to throw.
 	 * 
-	 * window.jTags - the object containing the jTag definitions.
+	 * events:
+	 * -------
+	 * pretty much self explainatory
+	 *
+	 * beforeExec
+	 * afterExec
+	 *
+	 * skip
+	 *
+	 * beforeExecLayer
+	 * afterExecLayer
+	 *
+	 * beforeExecAll
+	 * afterExecAll
+	 *
+	 * beforeJend
+	 * afterJend
 	 * */
 	
 	//jTag's default settings
@@ -41,10 +67,13 @@
 		if(!isNaN(skip)){
 			if(skip <= 1) e.removeAttr('skip');
 			if(skip > 1) e.attr('skip' , skip-1);
-			return 'skipped';
+			$(e).trigger('skip');
+			return 'skip';
 		}
-		if(skip === 'true')
-			return 'skipped';
+		if(skip === 'true'){
+			$(e).trigger('skip');
+			return 'skip';
+		}
 		
 		var tagName = e.prop('tagName').toLowerCase();
 		
@@ -77,7 +106,7 @@
 	$.fn.execLayer = function()
 	{
 		var e = this;
-		
+		$(e).trigger('beforeExecLayer');
 		//generate a query string containing all jTags
 		var str = '';
 		for (var key in jTags) {
@@ -93,6 +122,7 @@
 			if($(el).parents(str).length == 0)
 				$(el).exec();
 		});
+		$(e).trigger('beforeExecLayer');
 	};
 	
 	//execute every jTag in the page according to `order of operations`.
@@ -100,6 +130,7 @@
 	{
 		var e = this;
 		
+		$(e).trigger('beforeExecAll');
 		//keep executing until nothing changes anymore in HTML meaning there is nothing to execute.
 		var preHTML = '' , postHTML = 'a';
 		while(preHTML !== postHTML)
@@ -108,7 +139,7 @@
 			$(e).execLayer();
 			postHTML = $(e).html();
 		}
-		
+		$(e).trigger('afterExecAll');
 	};
 	
 	//terminate a jTag unwraping it or optionally firstly filling it with content.
