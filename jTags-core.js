@@ -22,7 +22,6 @@
 	 * window.jTags - the object containing the jTag definitions.
 	 * */
 	
-	
 	//jTag's default settings
 	window.jTagSettings = {
 		execAllAfterJend: true,
