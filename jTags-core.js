@@ -151,7 +151,7 @@
 		if(typeof content !== 'undefined')
 			$(e).html('').append(content);
 		//terminate the tag by replacing it with it's contents and thus exposing any jTags inside it for executing
-		$(e).contents().unwrap();
+		$(e).replaceWith($(e).contents());
 		$(window).trigger('afterJend' , [jTag , content]);
 		
 		//do we trigger execAll after jend()? default to true , configurable by user in jTagSettings Object
