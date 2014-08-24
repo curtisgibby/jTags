@@ -7,6 +7,22 @@
 
 (function ( $ ) {
 	
+	/* overview of jTags-core : 
+	 * 
+	 * window.jTagSettings - default settings.
+	 * 
+	 * $.fn.exec - execute single jTag.
+	 * $.fn.execLayer - execute only surface jTags for `order of operations` purpose (jTags without any jTags outside of them).
+	 * $.fn.execAll - execute every jTag in the page according to `order of operations`.
+	 * 
+	 * $.fn.jend - terminate a jTag unwraping it or optionally firstly filling it with content.
+	 * $.fn.skip - get or set [skip] attribute of a jTag.
+	 * $.fn.jTagError - an error object to throw.
+	 * 
+	 * window.jTags - the object containing the jTag definitions.
+	 * */
+	
+	
 	//jTag's default settings
 	window.jTagSettings = {
 		execAllAfterJend: true,
