@@ -148,7 +148,7 @@
 		var jTag = $(e).prop('tagName').toLowerCase();
 		
 		$(e).trigger('beforeJend' , content);
-		if(content)
+		if(typeof content !== 'undefined')
 			$(e).html('').append(content);
 		//terminate the tag by replacing it with it's contents and thus exposing any jTags inside it for executing
 		$(e).contents().unwrap();
