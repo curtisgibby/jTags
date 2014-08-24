@@ -63,14 +63,13 @@
 		
 		/*allows you to skip execution by setting the skip attribute to a number
 		 *  indicating how many times to skip or to `true` indicating skip forever */
-		var skip = e.attr('skip');
+		var skip = e.skip();
 		if(!isNaN(skip)){
-			if(skip <= 1) e.removeAttr('skip');
-			if(skip > 1) e.attr('skip' , skip-1);
+			e.skip(skip-1);
 			$(e).trigger('skip');
 			return 'skip';
 		}
-		if(skip === 'true'){
+		else if(skip === 'true'){
 			$(e).trigger('skip');
 			return 'skip';
 		}
@@ -164,9 +163,13 @@
 	{
 		var e = this;
 		
+		var e = this;
+		
 		if(val)
 		{
-			if(val == 'once')
+			if(val == 0)
+				$(e).removeAttr('skip');
+			else if(val == 'once')
 				$(e).attr('skip' , 1);
 			else if(!isNaN(val))
 				$(e).attr('skip' , val);
