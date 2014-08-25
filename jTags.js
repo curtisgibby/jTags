@@ -61,14 +61,14 @@
 	 * 									then the function replaces the string with the return string from the callback
  	 *									(this function is used to replace the fragment parameters without destroying non-serializable data , such as $(elem).data('jTagData'))
  	 *
- 	 * $.ajaxBrowse(href) - triggers $(window).trigger('beforeAjaxBrowse' , href) and then gets the page via $.get , then looks for `<content name="content-holder-name">` tags and pushes their content to the respective `content-holder`
+ 	 * ajaxBrowse(href) - triggers $(window).trigger('beforeAjaxBrowse' , href) and then gets the page via $.get , then looks for `<content name="content-holder-name">` tags and pushes their content to the respective `content-holder`
  	 * 						when the push is successful , the function updates the history (so you can press back and forward on the browser)
  	 * 						and triggers $(window).trigger('afterAjaxBrowse' , href)
  	 * 						(this fucntion is used by the `content-holder` jTag for exactly the above)
  	 * 
- 	 * $.urlParam - gets\sets url query string parameters (...?paramName=paramValue&otherParamName=otherParamValue&...) , 
+ 	 * urlParam - gets\sets url query string parameters (...?paramName=paramValue&otherParamName=otherParamValue&...) , 
  	 * 				when using `set` the function returns the new query string but does not actually change the location.href.
- 	 * 				(this function is used by the $.ajaxBrowse function to manipulate the url)
+ 	 * 				(this function is used by the ajaxBrowse function to manipulate the url)
 	 * 
 	 */
 	
@@ -400,24 +400,25 @@
 		},
 		'content-holder':function(data){
 			if(!data.name) $(this).jTagError('content-holder: no name specified');
-			$(this).jend('<div id="content-holder-'+data.name+'"></div>');
+			$(this).wrap('<div id="content-holder-'+data.name+'"></div>');
+			$(this).jend();
 			
 			//if user refreshes , the content will be loaded 
-			if($.urlParam('href'))
-				$.ajaxBrowse($.urlParam('href') , false);
+			if(urlParam('href'))
+				ajaxBrowse(urlParam('href') , false);
 			
 			//those events should not be bound more than once by another `content-holder` jTag
 			if(!window.bound){
 				//if user presses back or forward , the content will be loaded 
 				window.onpopstate = function(){
-					if($.urlParam('href'))
-						$.ajaxBrowse($.urlParam('href') , false);
+					if(urlParam('href'))
+						ajaxBrowse(urlParam('href') , false);
 					else $('[id^=content-holder-]').html('');
 				};
 				//if user clicks on a link , the content will be loaded 
 				$('html').on('click' , 'a[href]:not([rel=external])' , function(ev){
 					ev.preventDefault();
-					$.ajaxBrowse($(this).attr('href'));
+					ajaxBrowse($(this).attr('href'));
 				});
 				window.bound = true;
 			}
@@ -470,7 +471,7 @@
 	/* utility , instead of reloading the page , $.get the page , look for <content> tags with [name]
 	 * and push their content into the appropriate content holders (created by content-holder jTag)
 	 * then update history accordingly*/
-	$.ajaxBrowse = function(href , history){
+	window.ajaxBrowse = function(href , history){
 		var e = this;
 		$(window).trigger('beforeAjaxBrowse' , href);
 		$.get(href , function(res){
@@ -478,14 +479,14 @@
 				$('[id^=content-holder-'+$(el).attr('name')+']').html('').append($(el).contents().clone(true));
 			});
 			if(history !== false)
-				window.history.pushState('', '', $.urlParam('href' , href));
+				window.history.pushState('', '', urlParam('href' , href));
 			$(window).trigger('afterAjaxBrowse' , href);
 		});
 	};
 	
 	/* get\set query string parameters (...?paramName=paramvalue) , 
 	 * when using set the function returns the new query sting but does not change location.href*/
-	$.urlParam = function(key , value){
+	window.urlParam = function(key , value){
 		
 		var query = location.search;
 		
