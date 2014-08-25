@@ -10,7 +10,7 @@
 (function ( $ ) {
 	
 	/* overview of jTags-core : 
-	 * 
+	 * ------------------------
 	 * window.jTagSettings - default settings.
 	 * 
 	 * $.fn.exec - execute single jTag.
@@ -23,6 +23,54 @@
 	 * 
 	 * window.jTags - the object containing the jTag definitions.
 	 * */
+	
+	/* overview of the standard jTags : 
+	 * --------------------------------
+	 * legend : [required] , (optional)
+	 * 
+	 * new-jtag[name](source) - create a new jTag (get the jTag's function from element HTML or from $.get call).
+	 * 
+	 * jtag[code] - execute arbitrary code (the code is run as if it was a jTag function).
+	 * 
+	 * load[action] - load content via $.get and push it to the element.
+	 * 
+	 * define-fragment[name](source) - define an HTML pattern to be displayed (optionally with parameters) by the `fragment` jTag.
+	 * 								   the pattern is retreived from element.html() or via $.get(source).
+	 * 
+	 * fragment[name](source) - display the HTML pattern and replace parameters of the form `{%paramName [param default]%}` with data.
+	 * 						  	the data is retreived according to an order of precedence:
+	 * 							1. JSON data from $.get request
+	 * 							2. element attribute
+     * 							3. $(e).data('jTagData')
+     * 							4. default value
+     * 							5. error message
+     * 
+     * repeater(times)(source) - repeat the content. can iterate through array of data objects , pushing the data to all the fragments inside of it.
+     * 							 or just repeat a certain amout of `times` (`times` attribute overrides array.length)
+     * 
+     * content-holder[name] - when there are one or more content-holders the page goes into ajaxBrowsing mode, when the user clicks on a link : 
+     * 						  instead of loading the entire page , the page is retreived via $.get and then we look for `<content name="content-holder-name">` tags
+     * 						  and we push the tag's content to the appropriate content-holder.
+     * 
+	 * */
+	
+	/* overview of the utility functions : 
+	 * -----------------------------------
+	 * $.fn.textCrawl(regex,callback) - the function recursivly looks for the regex pattern in text and in attribute values , 
+	 * 									calling the callback , passing it the string and a set of matches , 
+	 * 									then the function replaces the string with the return string from the callback
+ 	 *									(this function is used to replace the fragment parameters without destroying non-serializable data , such as $(elem).data('jTagData'))
+ 	 *
+ 	 * $.ajaxBrowse(href) - triggers $(window).trigger('beforeAjaxBrowse' , href) and then gets the page via $.get , then looks for `<content name="content-holder-name">` tags and pushes their content to the respective `content-holder`
+ 	 * 						when the push is successful , the function updates the history (so you can press back and forward on the browser)
+ 	 * 						and triggers $(window).trigger('afterAjaxBrowse' , href)
+ 	 * 						(this fucntion is used by the `content-holder` jTag for exactly the above)
+ 	 * 
+ 	 * $.urlParam - gets\sets url query string parameters (...?paramName=paramValue&otherParamName=otherParamValue&...) , 
+ 	 * 				when using `set` the function returns the new query string but does not actually change the location.href.
+ 	 * 				(this function is used by the $.ajaxBrowse function to manipulate the url)
+	 * 
+	 */
 	
 	//jTag's default settings
 	window.jTagSettings = {
@@ -291,7 +339,9 @@
     			//regex for {%paramName [param default value] %}
     			var paramPatt = /{%(\w+) *(\[(?:.|\r|\n)*?\])? *%}/gmi;
     			
-    			//$.fn.textCrawl utillity function used to replace a regex pattern in html *without* destroying the DOM
+    			/* $.fn.textCrawl is a utility for manipulating text and attribute values using regex
+    			 * *without* destroying the DOM (like you would using $(this).html().replace()) ,
+    			 * it is important because we don't want to destroy things like $(elem).data('jTagData') */
     			$(e).textCrawl(paramPatt , function(str , matches){
     				
     				//iterate through all matches and replace the match on the string with a value
@@ -322,7 +372,7 @@
     		{
     			$.getJSON(data.source).done(function(json){
     				//on success
-    				array = json;
+    				array = $.extend($(e).data('jTagData'),json);
     				repeatAndJend();
     			}).fail(function(){
     				//on fail
@@ -335,6 +385,7 @@
 				var length = 0;
 				if(array) length = array.length;
 				if(data.times) length = data.times;
+				if(!length) $(e).jTagError('repeater: no array or no `times` attribute');
 				
 				var original = $(e).contents();
 				$(e).html('');
@@ -421,12 +472,14 @@
 	 * then update history accordingly*/
 	$.ajaxBrowse = function(href , history){
 		var e = this;
+		$(window).trigger('beforeAjaxBrowse' , href);
 		$.get(href , function(res){
 			$(res).filter('content[name]').each(function(i,el){
 				$('[id^=content-holder-'+$(el).attr('name')+']').html('').append($(el).contents().clone(true));
 			});
 			if(history !== false)
 				window.history.pushState('', '', $.urlParam('href' , href));
+			$(window).trigger('afterAjaxBrowse' , href);
 		});
 	};
 	
