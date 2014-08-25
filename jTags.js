@@ -1,314 +1,487 @@
+/* jTags-core.js | Source code | Well commented
+ * Author : Matan Tsuberi , Israel , (Github: matantsu)
+ * Licence : (GPL) GNU GENERAL PUBLIC LICENSE : https://github.com/matantsu/jTags/blob/master/LICENSE
+ * Website : http://matantsu.github.io/jTags
+ * Please feel free to change , modify , improve , 
+ * fork on GitHub , and use this code in any way you see fit ! */
+
+/* please contribute comments for other people and send my a pull request on GitHub , thanks in advance)*/
+
 (function ( $ ) {
 	
-	$.fn.textWalk = function (pattern, callback) {
-		var matches= [];
-	    for (var childi= this.get(0).childNodes.length; childi-->0;) {
-	        var child= this.get(0).childNodes[childi];
-	        if (child.nodeType==1) {
-	            var tag= child.tagName.toLowerCase();
-	            if (tag!=='script' && tag!=='style' && tag!=='textarea')
-	            {
-	                $(child).textWalk(pattern, callback);
-	            }
-	        } else if (child.nodeType==3) {
-	            
-	            if (typeof pattern==='string') {
-	                var ix= 0;
-	                while (true) {
-	                    ix= child.data.indexOf(pattern, ix);
-	                    if (ix===-1)
-	                        break;
-	                    matches.push({index: ix, '0': pattern});
-	                }
-	            } else {
-	                var match;
-	                while (match= pattern.exec(child.data))
-	                    matches.push(match);
-	            }
-	            for (var i= matches.length; i-->0;)
-	                callback.call(window, child, matches[i]);
-	        }
-	    }
+	/* overview of jTags-core : 
+	 * 
+	 * window.jTagSettings - default settings.
+	 * 
+	 * $.fn.exec - execute single jTag.
+	 * $.fn.execLayer - execute only surface jTags for `order of operations` purpose (jTags without any jTags outside of them).
+	 * $.fn.execAll - execute every jTag in the page according to `order of operations`.
+	 * 
+	 * $.fn.jend - terminate a jTag unwraping it or optionally firstly filling it with content.
+	 * $.fn.skip - get or set [skip] attribute of a jTag.
+	 * $.fn.jTagError - an error object to throw.
+	 * 
+	 * window.jTags - the object containing the jTag definitions.
+	 * */
+	
+	//jTag's default settings
+	window.jTagSettings = {
+		execAllAfterJend: true,
+		scopeSelector:'html'
 	};
 	
-	$(window).load(function(){
-		$.j.extensions.repeater = 
-			function()
-			{
-				//store the content
-				var html = $(this).html();
-				
-				//delete the content
-				$(this).html('');
-				
-				//append the content [times] times
-				for(var i = 0 ; i < $(this).attr('times') ; i++)
-				{
-					
-					$(this).append(html);
-				}
-				
-				//terminate this tag
-				$(this).jend();
-			};
-		
-		$.j();
-	});
-	
-	$.j = function ()
+	//execute single jTag.
+	$.fn.exec = function()
 	{
-		if($.j.status == true) return;
-		$.j.status = true;
-		var pre = '';
-    	var post = 'a';
-    	var ext = $.j.extensions;
-    	debugger;
-    	while(pre !== post)
-    	{
-    		pre = $('html').html();
-    		
-    		var str = '';
-    		
-    		for (var key in ext) {
-    		  if (ext.hasOwnProperty(key)) {
-    			  str+=key+',';
-    		  }
-    		}
-    		
-    		str = str.substr(0,str.length-1);
-    		
-    		$(str).each(function(i,e)
-    		{
-    			if($(e).parents(str).length == 0 && typeof $(e).attr('skip') === 'undefined' )
-    			{
-    				$(e).trigger('jstart');
-    				ext[$(e).prop('tagName').toLowerCase()].call(e);
-    				$(e).trigger('jstop');
-    				if(typeof $(e).attr('skip') === 'undefined')
-    					$(e).attr('skip' , 'true');
-    			}
-    			if(typeof $(e).attr('skip') !== 'undefined')
-    			{
-    				if(!isNaN($(e).attr('skip')) && $(e).attr('skip') > 1 ) $(e).attr('skip' ,$(e).attr('skip') -1);
-    				else if($(e).attr('skip') == 1) $(e).attr('skip' , 'once');
-    				else if($(e).attr('skip') == 'once') $(e).removeAttr('skip');
-    			}
-    		});
-    		
-    		post = $('html').html();
-    	}
-    	$.j.status = false;
+		//make sure only one element is handled.
+		if(this.length == 0) $(this).jTagError('cannot execute non-existing jTag');
+		var e = $(this).first();
+		
+		/*allows you to skip execution by setting the skip attribute to a number
+		 *  indicating how many times to skip or to `true` indicating skip forever */
+		var skip = e.skip();
+		if(!isNaN(skip)){
+			e.skip(skip-1);
+			$(e).trigger('skip');
+			return 'skip';
+		}
+		else if(skip === 'true'){
+			$(e).trigger('skip');
+			return 'skip';
+		}
+		
+		var tagName = e.prop('tagName').toLowerCase();
+		
+		// get all attributes as a key-value object.
+		var attrs = {};
+		var elemAttrs = e.get(0).attributes;
+		for (var i = 0, len = elemAttrs.length; i < len; i++)
+			attrs[elemAttrs[i].name] = elemAttrs[i].value;
+		
+		//merge jTag's data with attributes to be passed to the jTag function as one , without modifing the actual data.
+		var data = $.extend(e.data('jTagData') , attrs);
+		
+		var F = jTags[tagName];
+		if($.isFunction(F))
+		{
+			//trigger `beforeExec` event on the element and pass the data
+			e.trigger('beforeExec' , data);
+			//call the function in the context of this element (this = e)
+			F.call(e , data);
+			//set [skip=true] the jTag will wait and will not execute again until $(this).jend() is called
+			e.attr('skip' , 'true');
+			//trigger `afterExec` event globally (because maybe the element has disapeared) and pass the jTag name and the data
+			$(window).trigger('afterExec' , [ tagName ,data ]);
+		}
+		else
+			$(e).jTagError('jTag `'+tagName+'` not found');
 	};
 	
+	//execute only surface jTags for `order of operations` purpose (jTags without any jTags outside of them).
+	$.fn.execLayer = function()
+	{
+		var e = this;
+		$(e).trigger('beforeExecLayer');
+		//generate a query string containing all jTags
+		var str = '';
+		for (var key in jTags) {
+		  if (jTags.hasOwnProperty(key)) {
+			  str+=key+',';
+		  }
+		}
+		str = str.substr(0,str.length-1);
+		
+		//get all jTags inside scope
+		$(e).find(str).each(function(i,el){
+			// execute only if there are not jTags above the jTag , meaning it's a `top level` jTag 
+			if($(el).parents(str).length == 0)
+				$(el).exec();
+		});
+		$(e).trigger('beforeExecLayer');
+	};
+	
+	//execute every jTag in the page according to `order of operations`.
+	$.fn.execAll = function()
+	{
+		var e = this;
+		
+		$(e).trigger('beforeExecAll');
+		//keep executing until nothing changes anymore in HTML meaning there is nothing to execute.
+		var preHTML = '' , postHTML = 'a';
+		while(preHTML !== postHTML)
+		{
+			preHTML = $(e).html();
+			$(e).execLayer();
+			postHTML = $(e).html();
+		}
+		$(e).trigger('afterExecAll');
+	};
+	
+	//terminate a jTag unwraping it or optionally firstly filling it with content.
 	$.fn.jend = function(content)
 	{
-		$(this).trigger('jend');
+		var e = this;
+		var jTag = $(e).prop('tagName').toLowerCase();
+		
+		$(e).trigger('beforeJend' , content);
 		if(typeof content !== 'undefined')
-			$(this).replaceWith(content);
-		else
-			$(this).replaceWith($(this).contents());
-		$.j();
+			$(e).html('').append(content);
+		//terminate the tag by replacing it with it's contents and thus exposing any jTags inside it for executing
+		$(e).replaceWith($(e).contents());
+		$(window).trigger('afterJend' , [jTag , content]);
+		
+		//do we trigger execAll after jend()? default to true , configurable by user in jTagSettings Object
+		if(jTagSettings.execAllAfterJend) $(jTagSettings.scopeSelector).execAll();
 	};
 	
-	$.j.extensions = 
+	//get or set [skip] attribute of a jTag.
+	$.fn.skip = function(val)
 	{
-		'extension':function()
-		{
-			var e = this;
+		var e = this;
 		
-			if(!$(e).is('[name]')) return;
-			var name = $(e).attr('name');
-			var f = null;
-			if($(e).is('[source]'))
-			{
-				f = $(e).html();
-				add();
-			}
+		if(val)
+		{
+			if(val == 0)
+				$(e).removeAttr('skip');
+			else if(val == 'once')
+				$(e).attr('skip' , 1);
+			else if(!isNaN(val))
+				$(e).attr('skip' , val);
+			else if (val == 'true')
+				$(e).attr('skip' , 'true');
 			else
-			{
-				$.get($(e).attr('source'),function(res){
-					f = res;
-					add();
+				$(e).jTagError('invalid value of `skip` attribute');
+		}
+		else
+			return $(e).attr('skip');
+	};
+	
+	//an error object to throw
+	$.fn.jTagError = function(m)
+	{
+		var val =  { 
+		    name:        "jTags Error", 
+		    jTag : this,
+		    message:     m, 
+		    htmlMessage: m,
+		    toString:    function(){return this.name + ": " + this.message;} 
+		};
+		
+		throw val;
+	};
+	
+	//the standard jTags
+	window.jTags = {
+		'new-jtag':function(data){
+			var e = this;
+			var F = '';
+			//name attribute is required
+			if(typeof data.name === 'undefined') $(e).jTagError('new-jtag: name not defined');
+			
+			//if source is specified , get function definition from $.get call , otherwise get it from $(e).html()
+			if(data.source){
+				$.get(data.source).done(function(result){
+					//on succsess 
+					F = result;
+					newJtag();
+				}).fail(function()
+				{
+					//on fail
+					$(e).jTagError('new-jtag: failed retreiving function via $.get ('+data.source+')');
 				});
 			}
-			$(e).jend();
-			function add()
-			{
-				try
-				{
-					f = eval('['+f+']')[0];
-				}catch(v)
-				{
-					return;
-				}
+			else {
+				F = $(e).html();
+				newJtag();
+			}
+			
+			function newJtag(){
 				
-				$.j.extensions[name] = f;
-				
-				$(e).jend();
+				//evaluating the function string to get the function itself.
+				try{
+					F = eval('['+F.trim()+']')[0];}
+				catch(er){$(e).jTagError('new-jtag: invalid function definition:' + er);}
+				//pushing the new jTag
+				jTags[data.name] = F;
+				//we want the tag to vanish , not unwrap
+				$(e).jend('');
 			}
 		},
-	
-		'j':function()
-		{
-			try{eval($(this).attr('code'));}catch(e){$(this).jend();}
+		'jtag':function(data){
+			alert('');
+			try{eval(data.code);}catch(e){$(this).jTagError('jTag: failed executing code');}
 		},
-		
-		'load':function()
-		{
+		'load':function(data){
 			var e = this;
-			if($(e).is('[action]'))
-			$(e).load($(e).attr('action') , function(responseText, textStatus, jqXHR){
-				if(textStatus == 'success')
-				$(e).jend();
+			if(data.action)
+			$.get(data.action).done(function(result){
+				//on succsess 
+				$(e).jend(result);
+			}).fail(function(){
+				//on fail
+				$(e).jTagError('load: failed loading content: '+data.action);
 			});
 		},
-		
-		'define-fragment':function()
-    	{
-			$(this).hide();
-			if(!$(this).is('[name]')) {$(this).jend();return;}
+		'define-fragment':function(data){
+			
+			if(!data.name)$(this).jTagError('define-fragment: no name is specified');
     		var e = this;
     		var val = '';
     		
-    		if(!$.j.fragments)
-    			$.j.fragments = {};
+    		//this is where we store the fragment information
+    		if(!window.fragments) window.fragments = {};
     		
-    		if($(e).is('[source]'))
-			{
-    			$(e).load($(e).attr('source') , function(responseText, textStatus, jqXHR){
-    				if(textStatus == 'success')
+    		if(data.source){
+    			$.get(data.source).done(function(result){
+    				$(e).html(result);
     				end();
+    			}).fail(function(){
+    				$(this).jTagError('define-fragment: failed to retreive content via $.get ('+data.source+')');
     			});
 			}
     		else
 				end();
     		
-    		function end()
-    		{
+    		function end(){
     			val = $(e).contents().clone(true);
-				$.j.fragments[$(e).attr('name')] = val;
+    			window.fragments[data.name] = val;
     			$(e).jend('');
     		}
-    	},
-    	
-    	'fragment':function()
-    	{
-			if(!$(this).is('[name]') || !$.j.fragments) {$(this).jend();return;}
-			if(!$.j.fragments[$(this).attr('name')]) {$(this).attr('skip' , 'once'); return; };
+		},
+		'fragment':function(data){
+			
+			if(!data.name) {$(this).jTagError('fragment: no name is specified');}
+			if(!window.fragments || !window.fragments[data.name]) {
+				//if fragment is not found , skip this execution , maybe next time the fragment will be found.
+				$(this).skip('once');
+				return; 
+			};
     		var e = this;
     		
-    		if($(e).is('[source]'))
-    		{
-    			$.getJSON($(e).attr('source') , function(res){
-    				$(e).data('fragment-data' , $.extend($(e).data('fragment-data') , res));
-    				fillParams();
-    			}).error(function(){fillParams();});
-    		}else
-    			fillParams();
+    	   /* the fragment jTag finds patterns of the form {%paramName [param default value] %}
+    		* and tries to replace it with the appropriate value from data according to this precedence:
+    		* 1. JSON data from $.get request
+    		* 2. element attribute
+    		* 3. $(e).data('jTagData')
+    		* 4. default value
+    		* 5. error message
+    		* 
+    		* since 2 and 3 are already merged in [data] there is no need to merge them.
+    		*/
     		
-    		function fillParams()
+    		//if [source] is specified get parameter data from $.get , otherwise fill parameters according to precedence
+    		if(data.source)
     		{
-    			$(e).html('');
-    			$(e).append($.j.fragments[$(e).attr('name')].clone(true));
-    			
-    			var paramPatt = /{%(\w+) *(\[(?:.|\r|\n)*?\])? *%}/gm;
-    			
-    			$(e).textWalk(paramPatt , function(child , match){
-    				var val = 'error: no value could be found for parameter: `' + match[1] + '`';
-        			if(match[2])
-        				val = match[2].substr(1,match[2].length-2);
-        			if($(e).is('['+match[1]+']'))
-        				val = $(e).attr(match[1]);
-        			if($(e).data('fragment-data') && $(e).data('fragment-data')[match[1]])
-        				val = $(e).data('fragment-data')[match[1]];
-        			child.data = child.data.replace(match[0] , val);
+    			$.getJSON(data.source).done(function(json){
+    				//on success
+    				data = $.extend(data , json);
+    				fillParamsAndJend();
+    			}).fail(function(){
+    				//on fail
+    				$(e).jTagError('fragment: falied to retreive JSON object via $.getJSON ('+data.source+')');
     			});
+    		}else
+    			fillParamsAndJend();
+    		
+    		function fillParamsAndJend()
+    		{
+    			//push fragment definition to element
+    			$(e).html('').append(window.fragments[data.name].clone(true));
     			
+    			//regex for {%paramName [param default value] %}
+    			var paramPatt = /{%(\w+) *(\[(?:.|\r|\n)*?\])? *%}/gmi;
+    			
+    			//$.fn.textCrawl utillity function used to replace a regex pattern in html *without* destroying the DOM
+    			$(e).textCrawl(paramPatt , function(str , matches){
+    				
+    				//iterate through all matches and replace the match on the string with a value
+    				for(var i in matches){
+    					var match = matches[i];
+    					
+    					var val = 'error: no value could be found for parameter: `' + match[1] + '`';
+    					if(match[2])
+            				val = match[2].substr(1,match[2].length-2);
+    					if(data[match[1].toLowerCase()])
+    						val = data[match[1].toLowerCase()];
+    					str = str.replace(match[0] , val);
+    				}
+    				//return the new string with the parameter values to be replaced
+    				return str;
+    			});
         		$(e).jend();
     		}
-    	},
-    	
-    	'repeater':function()
-    	{
-    		e = this;
-    		
-    		if($(e).is('[source]'))
+		},
+		/* i'm sure you can figure this out ... 
+		 * (if you do , please contribute comments for other people and send my a pull request on GitHub , thanks in advance)*/
+		'repeater':function(data){
+			var e = this;
+			
+			var array;
+			//
+			if(data.source)
     		{
-    			$.getJSON($(e).attr('source') , function(res){
-    				debugger;
-    				$(e).data('repeater-data' , $.extend($(e).data('repeater-data') , res));
-    				hookData();
-    			}).error(function(){
-    				debugger;
-    				hookData();
-				});
-    		}else
-    			hookData();
-    		
-    		function hookData()
-    		{
-    			var data = $(e).data('repeater-data');
-    			if(data)
-    			var length = data.length;
-    			if($(e).is('[times]') && !isNaN($(e).is('[times]')))
-    				length = $(e).attr('times');
-    			
-    			var c = $(e).contents();
-    			$(e).html('');
-    			for(var i = 0 ; i < length ; i++)
-    			{
-    				var v = c.clone(true);
-    				$(v).filter('fragment').each(function(x,elem){
-    					if(data && data[i])
-    					$(elem).data('fragment-data' , $.extend($(e).data('fragment-data') , data[i]));
-    				});
-    				$(e).append(v);
-    			}
-    			
-    			$(e).jend();
-    		}
-    	},
-    	
-    	'content-holder':function()
-    	{
-    		if(!$(this).is('[name]')) {$(this).jend();return;}
-    		var e = this;
-    		
-    		$(e).wrap('<div id="j-content-holder-'+$(e).attr('name')+'"></div>');
-    		$(e).jend();
-    		
-    		if(getParameterByName('page'))nav();
-    		
-    		$('body').on('click' , 'a[href]:not([rel=external])' , function(ev)
-			{
-    			ev.preventDefault();
-    			window.history.pushState('object or string', 'Title', '?page='+$(this).attr('href'));
-    			
-    			nav();
-			});
-    		
-    		window.onpopstate = nav;
-    		
-    		function nav()
-    		{
-    			$.get(getParameterByName('page') , function(res){
-    				$(res).filter('content[name]').each(function(i,e)
-					{
-    					$('div#j-content-holder-'+$(e).attr('name')).html('').append($(e).contents().clone(true));
-					});
-    				$.j();
+    			$.getJSON(data.source).done(function(json){
+    				//on success
+    				array = json;
+    				repeatAndJend();
+    			}).fail(function(){
+    				//on fail
+    				$(e).jTagError('repeater: falied to retreive JSON object via $.getJSON ('+data.source+')');
     			});
-    		}
-    		
-    		function getParameterByName(name) {
-    		    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    		    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-    		        results = regex.exec(location.search);
-    		    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    		}
-    	}
+    		}else
+    			repeatAndJend();
+			
+			function repeatAndJend(){
+				var length = 0;
+				if(array) length = array.length;
+				if(data.times) length = data.times;
+				
+				var original = $(e).contents();
+				$(e).html('');
+				for(var i = 0 ; i < length ; i++){
+					var c = original.clone(true);
+					c.filter('fragment').each(function(r,el){if(array && array[i])$(el).data('jTagData' , array[i]);});
+					$(e).append(c);
+				}
+				$(e).jend();
+			}
+				
+		},
+		'content-holder':function(data){
+			if(!data.name) $(this).jTagError('content-holder: no name specified');
+			$(this).jend('<div id="content-holder-'+data.name+'"></div>');
+			
+			//if user refreshes , the content will be loaded 
+			if($.urlParam('href'))
+				$.ajaxBrowse($.urlParam('href') , false);
+			
+			//those events should not be bound more than once by another `content-holder` jTag
+			if(!window.bound){
+				//if user presses back or forward , the content will be loaded 
+				window.onpopstate = function(){
+					if($.urlParam('href'))
+						$.ajaxBrowse($.urlParam('href') , false);
+					else $('[id^=content-holder-]').html('');
+				};
+				//if user clicks on a link , the content will be loaded 
+				$('html').on('click' , 'a[href]:not([rel=external])' , function(ev){
+					ev.preventDefault();
+					$.ajaxBrowse($(this).attr('href'));
+				});
+				window.bound = true;
+			}
+		}
 	};
-
-	$.j.status = '';
+	
+	//utility that is used to replace text in without destroying the DOM
+	$.fn.textCrawl = function(regex,callback){
+		//native element
+		var e = this.get(0);
+		
+		for(var i = 0 ; i < e.childNodes.length ; i++){
+			var child = e.childNodes[i];
+			
+			//if element
+			if(child.nodeType == 1){
+				//iterate over attributes and match regex in attribute value
+				for(var j = 0; j < child.attributes.length ; j++)
+				{
+					var res = matchandcall(child.attributes[j].value , regex , callback);
+					if(res)
+					child.attributes[j].value = res;
+				}
+				
+				$(child).textCrawl(regex,callback);
+			}
+			//if text node
+			else if(child.nodeType == 3){
+				
+				//match text node data
+				var res = matchandcall(child.data , regex , callback);
+				if(res)
+				child.data = res;
+			}
+		}
+		
+		/* call a callback and provide it with the original string and an array of matched , 
+		 * the callback should return a new string with replaced values*/
+		function matchandcall(val , regex , callback)
+		{
+			var matches = [],match;
+			while(match = regex.exec(val))
+				matches.push(match);
+			if(matches.length > 0)
+				return callback.call(window,val,matches);
+			else return false;
+		}
+	};
+	
+	/* utility , instead of reloading the page , $.get the page , look for <content> tags with [name]
+	 * and push their content into the appropriate content holders (created by content-holder jTag)
+	 * then update history accordingly*/
+	$.ajaxBrowse = function(href , history){
+		var e = this;
+		$.get(href , function(res){
+			$(res).filter('content[name]').each(function(i,el){
+				$('[id^=content-holder-'+$(el).attr('name')+']').html('').append($(el).contents().clone(true));
+			});
+			if(history !== false)
+				window.history.pushState('', '', $.urlParam('href' , href));
+		});
+	};
+	
+	/* get\set query string parameters (...?paramName=paramvalue) , 
+	 * when using set the function returns the new query sting but does not change location.href*/
+	$.urlParam = function(key , value){
+		
+		var query = location.search;
+		
+		//helpers
+		if(!window.doneHelpers){
+			String.prototype.trimEnd = function(c) {
+			    if (c)        
+			        return this.replace(new RegExp(c.escapeRegExp() + "*$"), '');
+			    return this.replace(/\s+$/, '');
+			};
+			String.prototype.trimStart = function(c) {
+			    if (c)
+			        return this.replace(new RegExp("^" + c.escapeRegExp() + "*"), '');
+			    return this.replace(/^\s+/, '');
+			};
+	
+			String.prototype.escapeRegExp = function() {
+			    return this.replace(/[.*+?^${}()|[\]\/\\]/g, "\\$0");
+			};
+		}
+		window.doneHelpers = true;
+		
+		if(value)
+			return setUrlEncodedKey(key,value,query);
+		else
+			return getUrlEncodedKey(key,query);
+		
+		function getUrlEncodedKey(key, query) {
+		    if (!query)
+		        query = window.location.search;    
+		    var re = new RegExp("[?|&]" + key + "=(.*?)&");
+		    var matches = re.exec(query + "&");
+		    if (!matches || matches.length < 2)
+		        return "";
+		    return decodeURIComponent(matches[1].replace("+", " "));
+		}
+		function setUrlEncodedKey(key, value, query) {
+		   
+		    query = query || window.location.search;
+		    var q = query + "&";
+		    var re = new RegExp("[?|&]" + key + "=.*?&");
+		    if (!re.test(q))
+		        q += key + "=" + encodeURI(value);
+		    else
+		        q = q.replace(re, "&" + key + "=" + encodeURIComponent(value) + "&");
+		    q = q.trimStart("&").trimEnd("&");
+		    return q[0]=="?" ? q : q = "?" + q;
+		}
+		
+	};
 	
 }( jQuery ));
