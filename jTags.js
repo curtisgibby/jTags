@@ -41,17 +41,17 @@
 	 * 						  	the data is retreived according to an order of precedence:
 	 * 							1. JSON data from $.get request
 	 * 							2. element attribute
-     * 							3. $(e).data('jTagData')
-     * 							4. default value
-     * 							5. error message
-     * 
-     * repeater(times)(source) - repeat the content. can iterate through array of data objects , pushing the data to all the fragments inside of it.
-     * 							 or just repeat a certain amout of `times` (`times` attribute overrides array.length)
-     * 
-     * content-holder[name] - when there are one or more content-holders the page goes into ajaxBrowsing mode, when the user clicks on a link : 
-     * 						  instead of loading the entire page , the page is retreived via $.get and then we look for `<content name="content-holder-name">` tags
-     * 						  and we push the tag's content to the appropriate content-holder.
-     * 
+ 	 *							3. $(e).data('jTagData')
+     *							4. default value
+ 	 *							5. error message
+ 	 *
+ 	 * repeater(times)(source) - repeat the content. can iterate through array of data objects , pushing the data to all the fragments inside of it.
+ 	 * 							 or just repeat a certain amout of `times` (`times` attribute overrides array.length)
+ 	 * 
+ 	 * content-holder[name] - when there are one or more content-holders the page goes into ajaxBrowsing mode, when the user clicks on a link : 
+ 	 * 						  instead of loading the entire page , the page is retreived via $.get and then we look for `<content name="content-holder-name">` tags
+ 	 * 						  and we push the tag's content to the appropriate content-holder.
+ 	 * 
 	 * */
 	
 	/* overview of the utility functions : 
@@ -481,6 +481,8 @@
 			if(history !== false)
 				window.history.pushState('', '', urlParam('href' , href));
 			$(window).trigger('afterAjaxBrowse' , href);
+		}).fail(function(){
+			$(window).jTagError('ajaxBrowse: failed to retreive the page');
 		});
 	};
 	
