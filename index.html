@@ -21,7 +21,7 @@
   <body>
       <div id="header">
         <nav>
-          <li class="title" style="float:left;font-size:xx-large"><a href="index.html" rel="external">jTags</a></li>
+          <li class="title" style="float:left;font-size:xx-large"><a href="index.html" rel="external">jTags</a> <span id="spinner"><i class="fa fa-cog fa-spin"></i></span></li>
           <li class="downloads"><a href="https://github.com/matantsu/jTags/" rel="external"><i class="fa fa-github"></i> View On GitHub</a></li>
           <li class="downloads"><a href="pages/download.html"><i class="fa fa-download"></i> Download</a></li>
           <li class="downloads"><a href="https://github.com/matantsu/jTags/wiki/" rel="external"><i class="fa fa-book"></i> Documentation</a></li>
@@ -149,8 +149,10 @@
       });
 
       $(window).on('beforeAjaxBrowse' , function(){
-        $('[id^=content-holder-]').prepend('<i class="fa fa-cog fa-spin"></i>');
-        $('#title').prepend('<i class="fa fa-cog fa-spin"></i><br />');
+        $('#spinner').show();
+      });
+      $(window).on('afterAjaxBrowse' , function(){
+        $('#spinner').hide();
       });
     </script>
   </body>
