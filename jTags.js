@@ -256,7 +256,6 @@
 			}
 		},
 		'jtag':function(data){
-			alert('');
 			try{eval(data.code);}catch(e){$(this).jTagError('jTag: failed executing code');}
 		},
 		'load':function(data){
