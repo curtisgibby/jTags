@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>jTags by matantsu</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/matantsu/jTags">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/matantsu/jTags/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/matantsu/jTags/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>jTags</h1>
+          <p>embed functionality to HTML tags to make them perform a certain task.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/matantsu">matantsu</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="about-jtags" class="anchor" href="#about-jtags"><span class="octicon octicon-link"></span></a>About jTags</h1>
+
+<p>jTags are a unique way of building a highly dynamic, customizable and efficient website quickly and easily. With jTags you can embed functionality to the markup tags to make them perform a certain task.</p>
+
+<h6>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>example:</h6>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;repeater</span> <span class="na">times=</span><span class="s">"3"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;p&gt;</span>this will be repeated 3 times.<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;repeater&gt;</span>
+</pre></div>
+
+<p align="center">
+▼ ▼ ▼
+</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;p&gt;</span>this will be repeated 3 times.<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>this will be repeated 3 times.<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span>this will be repeated 3 times.<span class="nt">&lt;/p&gt;</span>
+</pre></div>
+
+<h1>
+<a name="get-started" class="anchor" href="#get-started"><span class="octicon octicon-link"></span></a>Get Started</h1>
+
+<h2>
+<a name="install-jtags" class="anchor" href="#install-jtags"><span class="octicon octicon-link"></span></a>install jTags:</h2>
+
+<ul>
+<li>download <a href="https://github.com/matantsu/jTags/archive/master.zip">jTags.zip</a>
+</li>
+<li>unzip jTags</li>
+<li>include jQuery <code>&lt;script src="path/to/jQuery.min.js"&gt;</code> in your website</li>
+<li>include jTags <code>&lt;script src="path/to/jTags.min.js"&gt;</code> in your website</li>
+<li>make sure jQuery is included before jTags</li>
+<li>have fun !</li>
+</ul><h2>
+<a name="contribute-to-jtags" class="anchor" href="#contribute-to-jtags"><span class="octicon octicon-link"></span></a>contribute to jTags:</h2>
+
+<ul>
+<li><p>post an issue on github with the jTag name followed by a description of it's function or the function itself.</p></li>
+<li><p>help improve jTags and the standard extensions : add new features , tackle compattibility issues and more.</p></li>
+<li><p>post issues and problems with jTags and help test them.</p></li>
+</ul><h1>
+<a name="standard-jtags" class="anchor" href="#standard-jtags"><span class="octicon octicon-link"></span></a>standard jTags</h1>
+
+<p>The standard jTags are the jTags that come pre-built with the core library. they are ment to provide an easy way to create a web application that runs mostly on the client instead of the server thus making the website much more efficient , faster and much more dynamic. </p>
+
+<h5>
+<a name="the-problem" class="anchor" href="#the-problem"><span class="octicon octicon-link"></span></a>the problem:</h5>
+
+<p>server nowadays provide alot of redundant and identical data instead of efficiently providing only the data that is needed. this is because the web was designed for static html pages and not modern dynamic web applicaions.</p>
+
+<p>thus every time you open facebook page , the server has to provide the html for the top navigation bar.
+whenever you open the news feed identical html layout for every post needs to be provided with only a few variations in the content of the post.</p>
+
+<p>this causes the server to spend alot of time providing redundant data instead of actual fresh data that the user wants.</p>
+
+<p>because of that problem , the standard jTags are built with the moto :</p>
+
+<blockquote>
+<p>"<em>the server is ment to provide data not junk !</em>"</p>
+</blockquote>
+
+<p>with junk referring to the repetitive behaviour of servers nowadays.
+the server sould <em>not</em> provide identical information twice , and should provide the data only when necessary.</p>
+
+<h5>
+<a name="the-standard-jtags" class="anchor" href="#the-standard-jtags"><span class="octicon octicon-link"></span></a>the standard jTags:</h5>
+
+<ul>
+<li>
+<code>new-jtag</code> - quickly define a new jTag hard-coded or from ajax-call.</li>
+<li>
+<code>jtag</code> - perform arbitrary task with <code>code</code> attribute.</li>
+<li>
+<code>load</code> - load content via ajax call.</li>
+<li>
+<code>define-fragment</code> - define a pattern with varibales to be used later.</li>
+<li>
+<code>fragment</code> - display the defined pattern and fill in the variables with data hard-coded or from ajax-call.</li>
+<li>
+<code>repeater</code> - repeat the content using an array of data hard-coded or from ajax-call.</li>
+<li>
+<code>content-holder</code> - makes the website operate in ajax-browsing , links will cause the page to be loaded via ajax to the content-holder</li>
+</ul>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-54108515-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
