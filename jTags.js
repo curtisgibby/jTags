@@ -1,4 +1,4 @@
-/* jTags-core.js | Source code | Well commented
+/* jTags.js | Source code | Well commented
  * Author : Matan Tsuberi , Israel , (Github: matantsu)
  * Licence : (GPL) GNU GENERAL PUBLIC LICENSE : https://github.com/matantsu/jTags/blob/master/LICENSE
  * Website : http://matantsu.github.io/jTags
