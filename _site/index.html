@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>jTags by matantsu</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="font-awesome-4.1.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-54108515-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    
+      <div id="header">
+        <nav>
+          <li class="title" style="float:left;font-size:xx-large">
+            <a href="index.html" rel="external">jTags</a>
+            <span id="spinner" style="display:none">
+              <i class="fa fa-cog fa-spin" style="font-size:x-large"></i>
+              <span id="error"style="font-size:large;color:orange">
+                Oops...
+              </span>
+            </span>
+          </li>
+          <li class="downloads"><a href="pages/download.html"><i class="fa fa-download"></i> Download</a></li>
+          <li class="downloads"><a href="https://github.com/matantsu/jTags/wiki/" rel="external"><i class="fa fa-book"></i> Documentation</a></li>
+          <li class="downloads"><a href="https://github.com/matantsu/jTags/" rel="external"><i class="fa fa-github"></i> View On GitHub</a></li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>jTags</h1>
+          <p>embed functionality to HTML tags to make them perform a certain task.</p>
+          <table>
+            <tr>
+              <td style="text-align:center"><a href="index.html" rel="external">Home</a></td>
+              <td style="text-align:center"><a href="pages/download.html">Download</a></td>
+              <td style="text-align:center"><a href="pages/get-started.html">Get Started</a></td>
+              <td style="text-align:center"><a href="pages/examples.html">Examples</a></td>
+              <td style="text-align:center"><a href="https://github.com/matantsu/jTags/wiki/" rel="external">Documentation</a></td>
+              <td style="text-align:center"><a href="pages/how.html">How to write a jTag ?</a></td>
+            </tr>
+          </table>
+          <span class="credits left">Project maintained by <a href="https://github.com/matantsu" rel="external">matantsu</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham" rel="external">mattgraham</a></span>
+        </div>
+      <content-holder name="body">
+<h1 id="about-jtags">About jTags</h1>
+
+<p>jTags are a unique way of building a highly dynamic, customizable and efficient website quickly and easily. With jTags you can embed functionality to the markup tags to make them perform a certain task.</p>
+
+
+
+<h6 id="example">example:</h6>
+
+
+
+<pre class="prettyprint"><code class="language-html hljs "><span class="hljs-tag">&lt;<span class="hljs-title">repeater</span> <span class="hljs-attribute">times</span>=<span class="hljs-value">"3"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>this will be repeated 3 times.<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">repeater</span>&gt;</span></code></pre>
+
+<p align="center">
+▼ ▼ ▼
+</p>
+
+
+
+<pre class="prettyprint"><code class="language-html hljs "><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>this will be repeated 3 times.<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>this will be repeated 3 times.<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>this will be repeated 3 times.<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span></code></pre>
+
+
+
+<h1 id="get-started">Get Started</h1>
+
+
+
+<h2 id="install-jtags">install jTags:</h2>
+
+<ul>
+<li>download <a href="https://github.com/matantsu/jTags/archive/master.zip">jTags.zip</a></li>
+<li>unzip jTags</li>
+<li>include jQuery <code>&lt;script src="path/to/jQuery.min.js"&gt;</code> in your website</li>
+<li>include jTags <code>&lt;script src="path/to/jTags.min.js"&gt;</code> in your website</li>
+<li>make sure jQuery is included before jTags</li>
+<li>have fun !</li>
+</ul>
+
+
+
+<h2 id="contribute-to-jtags">contribute to jTags:</h2>
+
+<ul>
+<li><p>post an issue on github with the jTag name followed by a description of it’s function or the function itself.</p></li>
+<li><p>help improve jTags and the standard extensions : add new features , tackle compattibility issues and more.</p></li>
+<li><p>post issues and problems with jTags and help test them.</p></li>
+</ul>
+
+
+
+<h1 id="standard-jtags">standard jTags</h1>
+
+<p>The standard jTags are the jTags that come pre-built with the core library. they are ment to provide an easy way to create a web application that runs mostly on the client instead of the server thus making the website much more efficient , faster and much more dynamic. </p>
+
+
+
+<h5 id="the-problem">the problem:</h5>
+
+<p>server nowadays provide alot of redundant and identical data instead of efficiently providing only the data that is needed. this is because the web was designed for static html pages and not modern dynamic web applicaions.</p>
+
+<p>thus every time you open facebook page , the server has to provide the html for the top navigation bar. <br>
+whenever you open the news feed identical html layout for every post needs to be provided with only a few variations in the content of the post.</p>
+
+<p>this causes the server to spend alot of time providing redundant data instead of actual fresh data that the user wants.</p>
+
+<p>because of that problem , the standard jTags are built with the moto :</p>
+
+<blockquote>
+  <p>“<em>the server is ment to provide data not junk !</em>”</p>
+</blockquote>
+
+<p>with junk referring to the repetitive behaviour of servers nowadays. <br>
+the server sould <em>not</em> provide identical information twice , and should provide the data only when necessary.</p>
+
+
+
+<h5 id="the-standard-jtags">the standard jTags:</h5>
+
+<ul>
+<li><code>new-jtag</code> - quickly define a new jTag hard-coded or from ajax-call.</li>
+<li><code>jtag</code> - perform arbitrary task with <code>code</code> attribute.</li>
+<li><code>load</code> - load content via ajax call.</li>
+<li><code>define-fragment</code> - define a pattern with varibales to be used later.</li>
+<li><code>fragment</code> - display the defined pattern and fill in the variables with data hard-coded or from ajax-call.</li>
+<li><code>repeater</code> - repeat the content using an array of data hard-coded or from ajax-call.</li>
+<li><code>content-holder</code> - makes the website operate in ajax-browsing , links will cause the page to be loaded via ajax to the content-holder</li>
+</ul>
+      </content-holder>
+
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-54108515-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+    <script src="javascripts/jTags.min.js"></script>
+    <script src="ace-builds-master/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      $(window).load(function(){
+        $('html').execAll();
+
+        editor = ace.edit("input");
+        editor.setTheme("ace/theme/chrome");
+        editor.getSession().setMode("ace/mode/html");
+      });
+
+      $(window).on('beforeAjaxBrowse' , function(){
+        $('#spinner').show();
+        $('#spinner #error').hide();
+      });
+      $(window).on('afterAjaxBrowse' , function(){
+        $('#spinner').hide();
+
+        editor = ace.edit("input");
+        editor.setTheme("ace/theme/chrome");
+        editor.getSession().setMode("ace/mode/html");
+      });
+
+      $(window).error(function(e){
+        if(e.originalEvent.error.name == 'jTags Error'){
+          $('#spinner>i').hide();
+          $('#spinner #error').show();
+          $('span#errorMessage').html('jTag Error: '+e.originalEvent.error.message);
+        }
+      });
+    </script>
+    <script>
+</script>
+  </body>
+</html>
