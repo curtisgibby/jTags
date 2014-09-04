@@ -1,0 +1,13 @@
+# Site settings
+title: jTags
+email: your-email@domain.com
+description: "Embed custom functionlity into HTML tags with jTags."
+baseurl: ""
+url: "http://yourdomain.com"
+twitter_username: jekyllrb
+github_username:   matantsu
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+paginate: 3 
