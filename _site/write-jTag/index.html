@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Write jTag</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Embed custom functionlity into HTML tags with jTags.">
+    <link rel="canonical" href="http://yourdomain.com/write-jTag/">
+    
+    <link rel="icon" type="image/ico" href="/assets/img/favicon.ico">
+     <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/settings.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+    <body>
+	
+
+	    <body>
+
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><span class="yellow">j</span>Tags</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav ">
+            
+            <li><a href="/download//">Download</a></li>
+
+            <li><a href="/get-started//">Get Started</a></li>
+            
+            <li><a href="/examples//">Examples</a></li>
+            
+            <li><a href="/write-jTag//">Write jTag</a></li>
+            
+            <li><a href="https://github.com/matantsu/jTags/wiki">WIKI</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+
+	<article class="post-content">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+	  					<h3 id="how-to-write-a-jtag-">How to write a jTag ?</h3>
+
+<p>Writing a jTag is as easy as cake !  A jTag is only a key-value pair stored inside the <strong>window.jTags</strong> object. 
+the key is the name of your jTag and the value is your jTag’s function.</p>
+
+<p>example:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">jTags</span><span class="o">[</span><span class="s2">&quot;jtagname&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">data</span><span class="p">){</span>
+    <span class="sr">//</span><span class="n">your</span> <span class="n">code</span> <span class="n">here</span>
+    <span class="n">var</span> <span class="n">html</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="o">.</span><span class="n">html</span><span class="p">();</span>
+    <span class="err">$</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;US&#39;</span> <span class="p">,</span> <span class="s1">&#39;United States of America&#39;</span><span class="p">));</span>
+    <span class="err">$</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="o">.</span><span class="n">jend</span><span class="p">();</span>
+<span class="p">};</span></code></pre></div>
+
+<h3 id="just-a-few-remarks">Just a few remarks:</h3>
+
+<ul>
+  <li>The jTag name must be lower-case.</li>
+  <li>The data object passed to the function contains the element’s attributes merged with it’s <code>$.data('jTagData')</code> (attributes override jTagData).</li>
+  <li>Always call <code>$(this).jend</code> when your task is done to terminate your jTag <a href="https://github.com/matantsu/jTags/wiki/jend" title="jTag WIKI">(wiki)</a>.</li>
+  <li>You can use <code>$(this).skip('once')</code> to tell the engine to skip the execution one time <a href="https://github.com/matantsu/jTags/wiki/jend" title="jTag WIKI">(wiki)</a>.</li>
+  <li>The function is called in the context of the element. <code>(this = element)</code>
+That’s it !</li>
+</ul>
+
+<h3 id="result">Result:</h3>
+
+<p>Whenever you write your jTag , the function will be called.</p>
+
+<p>example:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="n">jtagname</span><span class="o">&gt;</span>
+    <span class="no">The</span> <span class="no">US</span> <span class="p">(</span><span class="no">USA</span> <span class="ow">or</span> <span class="n">U</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="p">),</span> <span class="n">commonly</span> <span class="n">referred</span> <span class="n">to</span> <span class="n">as</span> <span class="n">the</span> <span class="no">US</span> <span class="p">(</span><span class="no">US</span> <span class="ow">or</span> <span class="n">U</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="p">),</span> <span class="no">America</span><span class="p">,</span> <span class="ow">and</span> <span class="n">sometimes</span> <span class="n">the</span> <span class="no">States</span>
+<span class="o">&lt;</span><span class="sr">/jtagname&gt;</span></code></pre></div>
+
+<p>turns into: </p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="n">jtagname</span><span class="o">&gt;</span>
+    <span class="no">The</span> <span class="no">United</span> <span class="no">States</span> <span class="n">of</span> <span class="no">America</span> <span class="p">(</span><span class="no">USA</span> <span class="ow">or</span> <span class="n">U</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="p">),</span> <span class="n">commonly</span> <span class="n">referred</span> <span class="n">to</span> <span class="n">as</span> <span class="n">the</span> <span class="no">United</span> <span class="no">States</span> <span class="n">of</span> <span class="no">America</span> <span class="p">(</span><span class="no">United</span> <span class="no">States</span> <span class="n">of</span> <span class="no">America</span> <span class="ow">or</span> <span class="n">U</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="p">),</span> <span class="no">America</span><span class="p">,</span> <span class="ow">and</span> <span class="n">sometimes</span> <span class="n">the</span> <span class="no">States</span>
+<span class="o">&lt;</span><span class="sr">/jtagname&gt;</span></code></pre></div>
+
+<p><br /></p>
+
+	  			</div>
+	  		</div>
+		</div>
+	 </article>
+
+    <!--footer and bottom nav-->
+
+    <footer class="site-footer">
+
+      <div class="container">
+
+      <div class="row">
+        <div class="span12 centered-pills">
+          <ul class="nav nav-pills">
+            
+            <li><a href="/download/">Download</a></li>
+            <li><a href="/get-started/">Get Started</a></li>
+            <li><a href="/examples/">Examples</a></li>
+            
+            <li><a href="/"></a></li>
+            
+          </ul>
+        </div>
+      </div>
+
+      <hr>
+          <p class="text-center">Project maintained by <a href="https://github.com/matantsu">matantsu <span class="icon-github-squared"></span></a>.  <span class="yellow">j</span>Tags is Licenced under the GNU General Public Licence v2</p>
+        </div>
+      </div>
+    </footer>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="assets/js/jquery-1.11.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="assets/js/bootstrap.min.js"></script>
+  
+  </body>
+
+    </body>
+</html>
