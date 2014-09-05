@@ -2,13 +2,8 @@
 title: jTags
 email: your-email@domain.com
 description: "Embed custom functionlity into HTML tags with jTags."
-<<<<<<< HEAD
-baseurl: "http://matantsu.github.io/jTags/"
-url: "http://matantsu.github.io/jTags/"
-=======
-baseurl: "/jTags/"
-url: "http://matantsu.github.io"
->>>>>>> Correct _config.yml baseurl and url
+baseurl: ""
+url: "http://yourdomain.com"
 twitter_username: jekyllrb
 github_username:   matantsu
 
