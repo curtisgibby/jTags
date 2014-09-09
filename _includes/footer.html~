@@ -9,7 +9,7 @@
           <ul class="nav nav-pills">
             
             <li><a href="{{ "download/" | prepend: site.baseurl }}">Download</a></li>
-            <li><a href="{{ "get-started/" | prepend: site.basurl }}">Get Started</a></li>
+            <li><a href="{{ "get-started/" | prepend: site.baseurl }}">Get Started</a></li>
             <li><a href="{{ "examples/" | prepend: site.baseurl }}">Examples</a></li>
             
             <li><a href="/"></a></li>
