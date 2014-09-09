@@ -17,7 +17,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav ">
             
-            <li><a href="{{ "/jTags/download/" | prepend: sibe.url }}">Download</a></li>
+            <li><a href="{{ "/jTags/download/" | prepend: site.url }}">Download</a></li>
 
             <li><a href="{{ "/jTags/get-started/" | prepend: site.url }}">Get Started</a></li>
             
