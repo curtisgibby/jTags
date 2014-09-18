@@ -35,7 +35,7 @@ install jTags:
 contribute to jTags:
 -----------------
 
-* post an issue on github with the jTag name followed by a description of it's function or the function itself.
+* post an issue on github with the jTag name followed by a description of its function or the function itself.
 
 * help improve jTags and the standard extensions : add new features , tackle compattibility issues and more.
 
